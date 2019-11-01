@@ -1,76 +1,48 @@
-import React, { Component} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 import '../style/Calculator.css';
 
 import Display from './Display';
 import Total from './Total';
 
-
-class Calculator extends Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      totalView: false,
-      principal: 0,
-      interestRate: 0,
-      terms: 0,
-      total:0,
-      rate:0
-    };
-
-    this.submitCalculateHandler = this.submitCalculateHandler.bind(this);
-    this.handlePrincipalChange = this.handlePrincipalChange.bind(this);
-    this.handleRateChange = this.handleRateChange.bind(this);
-    this.handleTermChange = this.handleTermChange.bind(this);
-  }
-
-  submitCalculateHandler = (event) => {
-    event.preventDefault();
-    let p= this.state.principal;
-    let t= this.state.terms;
-    let r= this.state.interestRate;
-    let new_rate= (p * t * r)/100;
-    let amountTotal = (this.state.principal + new_rate);
-    this.setState({
-      totalView:true,
-      rate : new_rate,
-      total: amountTotal
-    });
-  };
-
-  handlePrincipalChange(event){
-    let num = parseFloat(event.target.value);
-    this.setState ({principal : num});
-  };
-  handleRateChange = (event) => {
-    let rate= parseFloat(event.target.value);
-    this.setState ({interestRate : rate});
-  };
-  handleTermChange = (event) => {
-    let year = parseFloat(event.target.value);
-    this.setState ({terms : year});
-  };
-
-  render() {
+const Calculator = (props) =>{
+  
     return (
       <div className="Calculator">
-        {/* <header>for<span>US</span>all</header> */}
         <h1>Simple Interest Calculator</h1>
         <p className="bar"></p>
         <Display
-          handlePrincipal={this.handlePrincipalChange}
-          handleTerm={this.handleTermChange}
-          handleRate={this.handleRateChange}
-          clicked={this.submitCalculateHandler} />
-          {this.state.totalView === true ?
+          handlePrincipal={props.principal}
+          handleTerm={props.terms}
+          handleRate={props.rate}
+          clicked={props.total} />
+          {props.totalView === true ?
             <Total 
-              terms={this.state.terms}
-              total= {this.state.total}
-              principal= {this.state.principal}
-              rate={this.state.rate} /> : null}
-         
+              terms={props.terms}
+              total= {props.total}
+              principal= {props.principal}
+              rate={props.rate}/> : null}
       </div>
     );
   }
-}
-export default Calculator;
+
+Calculator.defaultProps ={
+  principal: 0,
+  terms: 0,
+  interestRate :0,
+  rate: 0,
+  total: 0,
+  totalView: false,
+};
+export const mapStateToProps = state => ({
+    principal: state.principal,
+    interestRate: parseFloat(state.interestRate),
+    terms: state.terms,
+    rate: (state.principal * state.interestRate * state.terms) /100,
+    total: parseFloat(state.principal) + parseFloat(state.principal * state.interestRate * state.terms) /100,
+    totalView: state.totalView
+  });
+
+
+export default connect(mapStateToProps)(Calculator);
 
