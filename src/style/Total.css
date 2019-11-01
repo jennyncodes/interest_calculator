@@ -1,0 +1,40 @@
+.Total{
+    margin: 20px auto;
+    width:60%;
+    text-align: center;
+    font-family:"Arial";
+    font-weight:bold;
+    border:1px solid #eee;
+    border-radius:8px;
+    box-shadow: 0 2px 3px #ccc;
+    padding:16px;
+    background-color:#fcfcfc;
+}
+h4 span{
+    color:#3182BD;
+
+}
+
+.box p{
+    text-align:left;
+    margin:10px;
+    padding: 5px;
+    font-weight:normal;
+}
+
+.box1{
+    width:15px;
+    height:15px;
+    background: #3182BD;
+    border: 1px solid #efefef ;
+    display:inline-block;
+}
+.box2{
+    width:15px;
+    height:15px;
+    background: #979797;
+    border:1px solid #efefef;
+    display:inline-block;
+}
+    
+
